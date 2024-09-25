@@ -8,7 +8,6 @@ cdr-transaction-management-api-TMF735/v5.0.0
 change-management-api-TMF655/v4.0.0
 closed-loop-management-TMF753/v5.0.0
 communication-management-api-TMF681/v4.0.0
-customer-bill-management-api-TMF678E
 customer-bill-management-api-TMF678/v5.0.0
 customer-management-api-TMF629/v5.0.1
 customer-management-api--TMF629E/v5.0.0E
@@ -29,7 +28,6 @@ geographic-site-management-api-TMF674/v4.0.0
 incident-management-api-TMF724/v4.0.0
 intent-management-api-TMF921/v4.0.0
 iot-agent-and-device-management-api-TMF908/v4.0.0
-iot-service-management-api-TMF914
 loyalty-management-api-TMF658/v4.0.0
 metadata-catalog-management-api-TMF725/v4.0.0
 network-as-a-service-management-api-TMF909/v3.0.0
