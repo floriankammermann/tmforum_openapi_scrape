@@ -63,8 +63,3 @@ for path in pathes:
     print(target_uniqurls)
     fetch_content(target_uniqurls, tm_number)
 
-
-
-
-#new_func(uniqurls)
-
