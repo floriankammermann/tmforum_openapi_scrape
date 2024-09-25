@@ -11,8 +11,12 @@ def extract_name(url):
 def extract_version(url):
     parsed_url = urlparse(url)
     path = parsed_url.path
-    name = path.split('/')[1]  # Extract the first element
-    return name
+    version = path.split('/')[1] 
+    version_without_v = version[1:]
+    version_tokens = version_without_v.split('.')
+    if version_tokens[2] != "0":
+        version_without_v = version_tokens[0] + "." + version_tokens[1] + "." + "0"
+    return version_without_v
 
 def tokenize_string(input_string):
     tokens = input_string.split('-')
@@ -21,7 +25,7 @@ def tokenize_string(input_string):
 def prepare_name_tokens(name_tokens):
     prepared_name_tokens = []
     for token in name_tokens:
-        if len(token) <= 2:
+        if len(token) <= 3:
             prepared_name_tokens.append(token.upper())
         else:
             prepared_name_tokens.append(token.capitalize())
@@ -103,11 +107,9 @@ for path in openapi_paths:
     # e.g. account-management-TMF666
     name = extract_name(path)
 
-    # e.g. v4.0.0
-    version = extract_version(path)
-
     # e.g. 4.0.0
-    version_without_v = version[1:]
+    version = extract_version(path)
+    
     tokens = tokenize_string(name)
 
     # e.g. TMF666
@@ -117,19 +119,24 @@ for path in openapi_paths:
         continue
 
     name_tokens = prepare_name_tokens(tokens)
-    url = create_user_guide_url(name_tokens, tm_number, version_without_v)
+    url = create_user_guide_url(name_tokens, tm_number, version)
+    print(url)
     if check_if_resource_exists(url):
         f.write(url + "\n")
         continue
 
-    url = create_user_guide_url_management(name_tokens, tm_number, version_without_v)
+    url = create_user_guide_url_management(name_tokens, tm_number, version)
+    print(url)
     if check_if_resource_exists(url):
         f.write(url + "\n")
         continue
 
-    url = create_user_guide_url_management_path_and_name(name_tokens, tm_number, version_without_v)
+    url = create_user_guide_url_management_path_and_name(name_tokens, tm_number, version)
+    print(url)
     if check_if_resource_exists(url):
         f.write(url + "\n")
         continue
+
+    f.write("missed: " + path + "\n")
 
 f.close()
