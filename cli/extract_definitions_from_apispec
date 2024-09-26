@@ -1,0 +1,100 @@
+#!/usr/bin/env python3
+import yaml
+import json
+import sys
+import arguably
+import os
+import fnmatch
+
+def find(pattern, path):
+    result = []
+    for root, dirs, files in os.walk(path):
+        for name in files:
+            if fnmatch.fnmatch(name, pattern):
+                result.append(os.path.join(root, name))
+    return result
+
+def get_alltypes(tmf, openapispec):
+    print("types for: tmf=" + tmf + " openapispec=" + openapispec)
+   
+    with open(openapispec, 'r') as file:
+        spec = yaml.safe_load(file)
+
+    schemas = spec['components']['schemas']
+
+    alltypes = {}
+
+    for name, content in schemas.items():
+
+        # filter basic types
+        if "Integer" in name or "Float" in name or "String" in name or "Map" in name:
+            continue
+
+        # filter technical types
+        if "Error" in name or "Hub" in name or "JsonPatch" in name:
+            continue
+
+        # filter the unknown FVO / MVO
+        if "_FVO" in name or "_MVO" in name:
+            continue
+
+        # filter Payload / Event
+        if "Event" in name or "Payload" in name:
+            continue
+
+        # filter refs
+        if "Ref" in name:
+            continue
+        
+        alltypes[name] = content
+    
+    return alltypes
+
+def types_json_stdout(tmf, openapispec):
+
+    alltypes = get_alltypes(tmf, openapispec)
+
+    json_out = open('output/' + tmf + '/types.json', 'w')
+    json.dump(alltypes, json_out, indent=4)
+    json.dump(alltypes, sys.stdout, indent=4)
+
+@arguably.command
+def list():
+    """
+    list all TMF API Spec Names based on the directories in output
+    """
+    subfolders = [ f.path for f in os.scandir('output/') if f.is_dir() ]
+    subfolders.sort()
+    for folder in subfolders:
+        print(folder.replace('output/', ''))
+    
+@arguably.command
+def names(api):
+    """
+    this gets the schema names for a certain API
+
+    Args:
+        api: the api to get the types from e.g. TMF620
+    """
+    
+    openapi = find("*oas.yaml", "output/" + api)
+    spec = yaml.safe_load(openapi[0])
+    alltypes = get_alltypes(api, spec)  
+    for name in alltypes:  
+        print(name)
+
+@arguably.command
+def types(api):
+    """
+    this gets the schemas for a certain API
+
+    Args:
+        api: the api to get the types from e.g. TMF620
+    """
+    
+    openapi = find("*oas.yaml", "output/" + api)
+    spec = yaml.safe_load(openapi[0])
+    types_json_stdout(api, spec)
+
+if __name__ == "__main__":
+    arguably.run()
