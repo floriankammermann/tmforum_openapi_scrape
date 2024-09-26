@@ -22,3 +22,7 @@ For efficiently browsing the content use this setup.
 1. Install [Visual Studio Code](https://code.visualstudio.com/)
 1. Install [vscode-pdf](https://marketplace.visualstudio.com/items?itemName=tomoki1207.pdf)
 1. Install [OpenAPI (Swagger) Editor](https://marketplace.visualstudio.com/items?itemName=42Crunch.vscode-openapi)
+
+## additional sources for slicing through the content
+* https://danaepp.com/how-to-extract-artifacts-from-openapi-docs-to-help-attack-apis
+* https://github.com/manchenkoff/openapi3-parser
