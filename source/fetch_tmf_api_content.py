@@ -8,10 +8,7 @@ from pathlib import Path
 def extract_urls(string):
     # Regular expression pattern to match URLs
     url_pattern = re.compile(r'https://tmf-open-api-table-documents.s3.eu-west-1.amazonaws.com/[a-zA-Z0-9/_\-\.]*[pdf|yaml|json]')
-
-    # Find all matches in the string
     urls = re.findall(url_pattern, string)
-    
     return urls
 
 def get_tm_number(url):
@@ -38,19 +35,21 @@ def create_tmf_directories(pathes):
 
 def fetch_content(uniqurls, tm_number):
     for url in uniqurls:
-        last = url.split('/')[-1] 
+        filename = url.split('/')[-1] 
         print("download: " + url)
         try:
-            wget.download(url, 'output/' + tm_number + "/" + last)        
+            wget.download(url, 'output/' + tm_number + "/" + filename)        
         except:
             print("download failed for: " + url)
 
 
+# read all the OpenAPI pathes and create the local directories
 pathes = read_openapi_path()
 create_tmf_directories(pathes)
 
 baseUrl = "https://www.tmforum.org/oda/open-apis/directory/"
 
+# iterate over the OpenAPI APIs and download all the content for each API
 for path in pathes:
     url = baseUrl + path
     tm_number = get_tm_number(path)
