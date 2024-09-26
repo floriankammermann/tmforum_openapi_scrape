@@ -11,5 +11,14 @@ You can directly startet with "download all content", since the file generated f
 1. extract the relevant path with `cat output/open_api.html | grep href | grep '/oda/open-apis/directory' | grep TMF | sed 's/.*href="\/oda\/open-apis\/directory\///g' | sed 's/"//g' > output/open_api_path.txt`
 
 ## download all content
+1. install [python3](https://www.python.org/downloads/)
 1. execute `python3 source/fetch_tmf_api_content.py`
 1. content will be fetched to `output/TMF<number>`
+
+# browsing the content
+
+For efficiently browsing the content use this setup.
+
+1. Install [Visual Studio Code](https://code.visualstudio.com/)
+1. Install [vscode-pdf](https://marketplace.visualstudio.com/items?itemName=tomoki1207.pdf)
+1. Install [OpenAPI (Swagger) Editor](https://marketplace.visualstudio.com/items?itemName=42Crunch.vscode-openapi)
