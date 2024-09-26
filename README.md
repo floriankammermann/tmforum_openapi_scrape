@@ -17,11 +17,18 @@ You can directly startet with "download all content", since the file generated f
 
 # browsing the content
 
+## Visual Studio Code
 For efficiently browsing the content use this setup.
 
 1. Install [Visual Studio Code](https://code.visualstudio.com/)
 1. Install [vscode-pdf](https://marketplace.visualstudio.com/items?itemName=tomoki1207.pdf)
 1. Install [OpenAPI (Swagger) Editor](https://marketplace.visualstudio.com/items?itemName=42Crunch.vscode-openapi)
+
+## OpenAPI Specs on command line
+In the cli folder you find `extract_definitions_from_apispec`
+You can use this command line tool to browse the OpenAPI schemas and extract them.
+It only works on OpenAPI specs and not swagger.
+Use `cli/extract_definitions_from_apispec -h` to explore the options.
 
 ## additional sources for slicing through the content
 * https://danaepp.com/how-to-extract-artifacts-from-openapi-docs-to-help-attack-apis
