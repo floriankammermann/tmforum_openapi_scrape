@@ -1,5 +1,7 @@
 # Scrape all resources from the tmforum OpenAPI Directory
 
+You can directly startet with "download all content", since the file generated from "get the OpenAPI TMF relative paths" is commited.
+
 ## get the OpenAPI TMF relative paths
 1. go to https://www.tmforum.org/oda/open-apis/directory
 1. open the dev tools
