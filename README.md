@@ -33,3 +33,10 @@ Use `cli/extract_definitions_from_apispec -h` to explore the options.
 ## additional sources for slicing through the content
 * https://danaepp.com/how-to-extract-artifacts-from-openapi-docs-to-help-attack-apis
 * https://github.com/manchenkoff/openapi3-parser
+
+# creating diagrams from the OpenAPI TMF Specifications
+1. Install java
+1. Download https://github.com/knutaa/oas2puml/releases/tag/Release_1.3.0
+1. Generate the plantuml files for a OpenAPI TMF Specification: `java -jar apidiagram-1.3.0-SNAPSHOT.jar diagrams -f TMF620-Product_Catalog_Management-v5.0.0.oas.yaml`
+1. Download https://plantuml.com/download
+1. Generate a diagram from the plantuml files: `java -Djava.awt.headless=true -jar plantuml.jar Resource_ProductSpecification.puml`
