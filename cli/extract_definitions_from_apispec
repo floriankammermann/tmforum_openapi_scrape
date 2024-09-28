@@ -59,7 +59,7 @@ def types_json_stdout(tmf, openapispec):
     json.dump(alltypes, sys.stdout, indent=4)
 
 @arguably.command
-def list():
+def listapis():
     """
     list all TMF API Spec Names based on the directories in output
     """
@@ -69,32 +69,51 @@ def list():
         print(folder.replace('output/', ''))
     
 @arguably.command
-def names(api):
+def exportschemas(apis):
     """
-    this gets the schema names for a certain API
+    this exports the schemas of one or may apis to a types.json file
 
     Args:
-        api: the api to get the types from e.g. TMF620
+        apis: the apis to get the schemas from e.g. TMF620. Can also be a list e.g. TMF620,TMF633
     """
     
-    openapi = find("*oas.yaml", "output/" + api)
-    spec = yaml.safe_load(openapi[0])
-    alltypes = get_alltypes(api, spec)  
-    for name in alltypes:  
-        print(name)
+    api_names = apis.split(',')
+
+    
+    for api_name in api_names:
+        print("export for: " + api_name)
+        openapi = find("*oas.yaml", "output/" + api_name)
+        types_json_stdout(api_name, openapi[0])
 
 @arguably.command
-def types(api):
+def schemas(apis, schema=None):
     """
-    this gets the schemas for a certain API
+    this gets a schema for a certain API or a list of APIs
 
     Args:
-        api: the api to get the types from e.g. TMF620
+        api: the api to get the types from e.g. TMF620 or TMF620,TMF633
+        schemas: the schemas to output e.g. TaxItem or TaxItem,Money
     """
+    api_names = apis.split(',')
+
+    if schema is not None:
+        schemas = set(schema.split(','))
+
+    alltypes = {}
+    for api_name in api_names:
+        openapi = find("*oas.yaml", "output/" + api_name)
+        spec = yaml.safe_load(openapi[0])
+        api_types = get_alltypes(api_name, spec)  
+        alltypes.update(api_types)
     
-    openapi = find("*oas.yaml", "output/" + api)
-    spec = yaml.safe_load(openapi[0])
-    types_json_stdout(api, spec)
+    if schema is None:
+        for name in alltypes:  
+            print(name)
+    else:
+        for name in alltypes:  
+            if  name in schemas:
+                print("\n\n" + name + ":")
+                json.dump(alltypes[name], sys.stdout, indent=4)
 
 if __name__ == "__main__":
     arguably.run()
